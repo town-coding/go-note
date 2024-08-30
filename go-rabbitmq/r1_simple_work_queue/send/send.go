@@ -47,8 +47,8 @@ func main() {
 	err = ch.PublishWithContext(ctx,
 		"",     // exchange 交换机
 		q.Name, // routing key 路由键
-		false,  // mandatory 消息是否必须路由到队列
-		false,  // immediate
+		false,  // mandatory 如果设置为 true，则表示如果消息无法路由到任何队列，RabbitMQ 将返回该消息给发布者。如果设置为 false，消息将被丢弃
+		false,  // immediate 如果设置为 true，表示如果消息发送时，队列中没有消费者，消息将不会入队列，并返回给发布者。一般情况下，这个选项很少使用，通常设置为 false
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        []byte(body),
