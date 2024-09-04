@@ -1,4 +1,4 @@
-module go-rabbitmq
+module go-note/go-rabbitmq
 
 go 1.22.5
 
