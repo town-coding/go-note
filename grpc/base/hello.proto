@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// 定义 包名为 hello_grpc
+package hello_grpc;
+
+option go_package="/hello;hello";
+
+
+// 定义请求消息类型
+message HelloRequest{
+  string name=1;
+}
+
+// 定义响应消息类型
+message HelloResponse{
+  string reply=1;
+}
+
+service HelloService{
+  rpc Hello(HelloRequest) returns(HelloResponse);
+}
+
