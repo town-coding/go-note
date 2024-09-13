@@ -4,5 +4,6 @@ use (
 	go-rabbitmq
 	websocket
 	grpc
+	rpc
 )
 
