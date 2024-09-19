@@ -25,3 +25,13 @@ gRPC 支持四种主要的通信模式：
 - 拦截器：可以通过拦截器在RPC调用前后进行一些处理逻辑，比如日志记录、鉴权。
 - 超时与重试：gRPC 支持设置调用的超时与重试策略。
 - 安全性：gRPC 支持使用 TLS 加密通信。
+
+
+```
+grpc // grpc目录结构
+├── base            // Unary RPC      
+├── interceptor    // gRPC 结合拦截器
+├── stream_bidirectional    // Bidirectional Stream RPC  
+├── stream_client    // Client Streaming RPC
+└── stream_server   // Server Streaming RPC
+```

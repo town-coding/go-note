@@ -1,0 +1,2 @@
+protoc --go_out=. example.proto
+protoc --go-grpc_out=. example.proto

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// 定义 包名为 hello_grpc
+package example_grpc;
+
+option go_package="/example;example";
+
+
+// 定义请求消息类型
+message ExampleRequest{
+  string title=1;
+}
+
+// 定义响应消息类型
+message ExampleResponse{
+  string reply=1;
+}
+
+service ExampleService{
+  rpc Example(ExampleRequest) returns(ExampleResponse);
+}
+
