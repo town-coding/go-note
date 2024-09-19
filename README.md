@@ -1,4 +1,6 @@
-### Golang学习笔记
+# Golang学习笔记
+go笔记，记录学习过程，持续更新
+
 ~~~
 go-note
 ├── go-rabbitMQ // go操作rabbitMQ
@@ -12,4 +14,3 @@ go-note
 └── ~~~
 ~~~
 
-go笔记，记录学习过程，持续更新
