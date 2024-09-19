@@ -1,7 +1,11 @@
 ### Golang学习笔记
 ~~~
 go-note
-├── go-rabbitmq //go操作rabbitmq
+├── go-rabbitMQ // go操作rabbitMQ
+│
+├── gRPC // gRPC
+│
+├── RPC // RPC
 │
 ├── websocket //go操作websocket
 │
