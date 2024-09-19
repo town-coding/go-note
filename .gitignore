@@ -25,6 +25,7 @@ Thumbs.db
 
 # Go specific files
 go.sum
+go.work.sum
 *.test
 
 
