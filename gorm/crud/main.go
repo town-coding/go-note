@@ -14,7 +14,25 @@ func main() {
 	db = initialize.InitMysql()
 	//Create()
 
-	Select()
+	//Select()
+
+	Update()
+
+}
+
+func Update() {
+	var user domain.User
+	db.First(&user)
+	user.Name = "jinzhu 2"
+	user.Age = 100
+	// 会保存所有的字段，即使字段是零值
+	db.Save(&user)
+
+	// Save() 保存时不包含主键，他将执行 Create, 否者执行 Update
+	db.Save(&domain.User{Name: "qwe", Age: 124})
+
+	// 更新单个列，根据条件更新
+	db.Model(&domain.User{}).Where("name = ?", "qwe").Update("age", gorm.Expr("age - 10"))
 }
 
 func Select() {
