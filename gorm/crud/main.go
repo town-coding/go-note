@@ -16,8 +16,54 @@ func main() {
 
 	//Select()
 
-	Update()
+	//Update()
 
+	//Delete()
+
+	GenerateSQL()
+}
+
+func GenerateSQL() {
+	type Result struct {
+		ID   int
+		Name string
+		Age  int
+	}
+
+	// 用于执行 SELECT 查询，返回结果
+	//var result Result
+	//db.Raw("SELECT id, name, age FROM users WHERE id = ?", 3).Scan(&result)
+
+	// 用于执行不返回结果的 SQL 语句，如 INSERT、UPDATE 或 DELETE
+	//db.Exec("DROP TABLE users")
+	//db.Exec("UPDATE orders SET shipped_at = ? WHERE id IN ?", time.Now(), []int64{1, 2, 3})
+
+	// DryRun 模式 在不执行的情况下生成 SQL 及其参数
+	var user domain.User
+	statement := db.Session(&gorm.Session{DryRun: true}).First(&user, 1).Statement
+	fmt.Println(statement.SQL.String())
+	fmt.Println(statement.Vars)
+	// ToSQL 生成sql 不执行
+	sql := db.ToSQL(func(tx *gorm.DB) *gorm.DB {
+		return tx.Model(&domain.User{}).Where("id = ?", 100).Limit(10).Order("age desc").Find(&[]domain.User{})
+	})
+
+	fmt.Println(sql)
+}
+
+func Delete() {
+	// 删除一条记录
+	var user domain.User
+	user.ID = 1
+	db.Where("name = ?", "jinzhu").Delete(&user)
+
+	// 根据主键删除
+	db.Delete(&domain.User{}, 10)
+
+	// gorm 会阻止全局删除
+	_ = db.Delete(&domain.User{}).Error // gorm.ErrMissingWhereClause
+
+	_ = db.Delete(&[]domain.User{{Name: "jinzhu1"}, {Name: "jinzhu2"}}).Error // gorm.ErrMissingWhereClause
 }
 
 func Update() {
@@ -33,6 +79,9 @@ func Update() {
 
 	// 更新单个列，根据条件更新
 	db.Model(&domain.User{}).Where("name = ?", "qwe").Update("age", gorm.Expr("age - 10"))
+
+	db.Model(&domain.User{}).Update("age", gorm.Expr("price * ? + ?", 2, 100))
+	// UPDATE "users" SET "age" = age * 2 + 100, "updated_at" = '2013-11-17 21:34:10' WHERE "id" = 3;
 }
 
 func Select() {

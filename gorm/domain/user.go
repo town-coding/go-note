@@ -17,6 +17,7 @@ type User struct {
 	ActivatedAt  sql.NullTime   // Uses sql.NullTime for nullable time fields
 	CreatedAt    time.Time      // 创建时间（由GORM自动管理）
 	UpdatedAt    time.Time      // 最后一次更新时间（由GORM自动管理）
+	//IsDel        soft_delete.DeletedAt
 }
 
 func (u *User) TableName() string {
