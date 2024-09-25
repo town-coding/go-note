@@ -16,7 +16,8 @@ func InitMysql() *gorm.DB {
 		DontSupportRenameColumn:   true,                                                                             // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
 		SkipInitializeWithVersion: false,                                                                            // 根据当前 MySQL 版本自动配置
 	}), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger:                                   logger.Default.LogMode(logger.Info),
+		DisableForeignKeyConstraintWhenMigrating: true,
 		//QueryFields: true,
 	})
 	if err != nil {

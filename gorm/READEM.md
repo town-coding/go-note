@@ -1,9 +1,9 @@
-#### 下载 GORM
+### 下载 GORM
 ```
 go get -u gorm.io/gorm
 ```
 
-#### 模型定义
+### 模型定义
 模型是使用普通结构体定义的,结构体可以包含具有基本Go类型、指针或这些类型的别名，甚至是自定义类型。
 ```go
 package main
@@ -30,12 +30,12 @@ type User struct {
 - `CreatedAt`和`UpdatedAt`是特殊字段，当记录被创建或更新时，`GORM`会自动向内填充当前时间。
 
 除了 GORM 中模型声明的基本特性外，强调下通过 serializer 标签支持序列化也很重要。 此功能增强了数据存储和检索的灵活性，特别是对于需要自定义序列化逻辑的字段。
-#### 约定
+### 约定
 1. 主键：`GORM`一个名为`id`的字段作为每一个模型的默认主键。
 2. 表名：默认情况下，`GORM`将结构体名称转换为`snake_case`并为表名加上复数形式。
 3. 列名：`GORM`自动将结构体字段名称转换为`snake_case`作为数据库中的列名。
 4. 时间戳字段：`GORM`使用字段`CreatedAt`和`UpdatedAt`来自动跟踪记录的创建和更新时间。
-#### 字段级权限控制
+### 字段级权限控制
 ```
 type User struct {
   Name string `gorm:"<-:create"` // 允许读和创建
@@ -52,7 +52,7 @@ type User struct {
 ```
 
 
-#### 创建/更新时间追踪（纳秒、毫秒、秒、Time）
+### 创建/更新时间追踪（纳秒、毫秒、秒、Time）
 ```
 type User struct {
   CreatedAt time.Time // 在创建时，如果该字段值为零值，则使用当前时间填充
@@ -62,3 +62,47 @@ type User struct {
   Created   int64 `gorm:"autoCreateTime"`      // 使用时间戳秒数填充创建时间
 }
 ```
+
+### gorm 常用方法
+
+#### CRUD 接口
+
+##### 1.创建
+```
+user := User{Name: "Jinzhu", Age: 18, Birthday: time.Now()}
+
+result := db.Create(&user) // 通过数据的指针来创建
+
+user.ID             // 返回插入数据的主键
+result.Error        // 返回 error
+result.RowsAffected // 返回插入记录的条数
+
+// 创建多条
+users := []*User{
+    {Name: "Jinzhu", Age: 18, Birthday: time.Now()},
+    {Name: "Jackson", Age: 19, Birthday: time.Now()},
+}
+
+result := db.Create(users) // pass a slice to insert multiple row
+
+result.Error        // 返回 error
+result.RowsAffected // 返回插入记录的条数
+
+// 创建记录并为指定字段赋值
+db.Select("Name", "Age", "CreatedAt").Create(&user)
+
+// 创建记录并忽略传递给 Omit 的字段值
+db.Omit("Name", "Age", "CreatedAt").Create(&user)
+
+```
+创建钩子
+```
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+    // todo 在insert into 之前执行
+    return
+}
+// 跳过Hooks方法
+DB.Session(&gorm.Session{SkipHooks: true}).Create(&user)
+```
+
+##### 2.查询
