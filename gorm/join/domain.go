@@ -24,10 +24,10 @@ func (Company) TableName() string {
 }
 
 // User 有多张 CreditCard，UserID 是外键
-type User struct {
-	gorm.Model
-	CreditCards []CreditCard `gorm:"foreignKey:UserID"`
-}
+//type User struct {
+//	gorm.Model
+//	CreditCards []CreditCard `gorm:"foreignKey:UserID"`
+//}
 
 type CreditCard struct {
 	gorm.Model
@@ -36,10 +36,11 @@ type CreditCard struct {
 }
 
 // User 拥有并属于多种 language，`user_languages` 是连接表
-//type User struct {
-//	gorm.Model
-//	Languages []*Language `gorm:"many2many:user_languages;"`
-//}
+type User struct {
+	gorm.Model
+	Username  string
+	Languages []*Language `gorm:"many2many:user_languages;"`
+}
 
 type Language struct {
 	gorm.Model

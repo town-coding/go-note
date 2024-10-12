@@ -1,6 +1,7 @@
 go 1.22.5
 
 use (
+	go-reflect
 	go-rabbitmq
 	gorm
 	grpc
